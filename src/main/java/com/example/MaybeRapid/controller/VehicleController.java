@@ -2,14 +2,13 @@ package com.example.MaybeRapid.controller;
 
 import com.example.MaybeRapid.domain.Vehicle;
 import com.example.MaybeRapid.repository.VehicleRepository;
-import java.util.List;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import com.example.MaybeRapid.utils.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,28 +22,22 @@ public class VehicleController {
   }
 
   @GetMapping("/vehicles")
-  public List<Vehicle> getVehicle() {
-    return vehicleRepository.findAll();
-  }
+  public Iterable<Vehicle> getVehicles() { return vehicleRepository.findAll(); }
 
   @GetMapping("/vehicle/{id}")
-  public Vehicle getVehicle(@RequestParam(name = "id") String id) {
-    return vehicleRepository.findOneById(id);
+  public Vehicle getVehicle(@PathVariable("id") Long id) {
+    return  Assert.found(vehicleRepository.findById(id), "not found");
   }
 
   @PutMapping("/vehicle/{id}")
-  public Vehicle putVehicle(@RequestParam(name = "id") String id) {
-    return Vehicle;
-  }
-
-  @DeleteMapping("/vehicle/{id}")
-  public Vehicle deleteVehicle(@RequestParam(name = "id") String id) {
-    return Vehicle;
+  public Vehicle putVehicle(@PathVariable("id") Long id, @RequestBody Vehicle vehicle) {
+    Vehicle vehicle1 = Assert.found(vehicleRepository.findById(id), "not found");
+    vehicle1.setModel(vehicle.getModel());
+    return vehicle1;
   }
 
   @PostMapping("/vehicle")
   public Vehicle postVehicle(@RequestBody Vehicle vehicle) {
-    return Vehicle;
+    return vehicleRepository.save(vehicle);
   }
-
 }

@@ -32,7 +32,7 @@ public class ResidentController {
   @GetMapping("/view/{id}")
   public Resident viewTransactionById(@PathVariable("id") Long id) {
     Optional<Resident> transaction = residentRepository.findById(id);
-    if(transaction.isPresent()) {
+    if (transaction.isPresent()) {
       return transaction.get();
     }
 
