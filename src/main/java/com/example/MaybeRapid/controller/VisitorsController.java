@@ -1,6 +1,9 @@
 package com.example.MaybeRapid.controller;
 
-import com.example.MaybeRapid.domain.Visitant;
+import com.example.MaybeRapid.domain.Visitor;
+import com.example.MaybeRapid.repository.VisitorRepository;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,14 +17,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1")
 public class VisitorsController {
 
-  @GetMapping("/visitors")
-  public String getVisitors(@RequestParam(name = "id", required = false) String id) {
-    return "test";
+  private VisitorRepository visitorRepository;
+
+  public VisitorsController(VisitorRepository visitorRepository) {
+    this.visitorRepository = visitorRepository;
   }
 
-  @PutMapping("/visitor")
+  @GetMapping("/visitors")
+  public List<Visitor> getVisitors() {
+    return visitorRepository.findAll();
+  }
+
+  @GetMapping("/visitor/{id}")
+  public Visitor getVisitors(@RequestParam(name = "id") String id) {
+    return visitorRepository.findOneById(id);
+  }
+
+  @PutMapping("/visitor/{id}")
   public String putVisitor(@RequestParam(name = "id") String id) {
-    return "test";
+    return "visitorRepository";
   }
 
   @DeleteMapping("/visitor/{id}")
@@ -30,7 +44,7 @@ public class VisitorsController {
   }
 
   @PostMapping("/visitor")
-  public String postVisitor(@RequestBody Visitant visitants) {
+  public String postVisitor(@RequestBody Visitor visitants) {
     return "creating";
   }
 
