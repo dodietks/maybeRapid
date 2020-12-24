@@ -20,17 +20,17 @@ public class ResidentController {
   private ResidentRepository residentRepository;
 
   @PostMapping("/create")
-  public Long createTransaction(@RequestBody Resident resident) {
+  public Long createResident(@RequestBody Resident resident) {
     return resident.getId();
   }
 
   @GetMapping("/viewAll")
-  public Iterable<Resident> viewAllTransactions() {
+  public Iterable<Resident> viewAllResidets() {
     return residentRepository.findAll();
   }
 
   @GetMapping("/view/{id}")
-  public Resident viewTransactionById(@PathVariable("id") Long id) {
+  public Resident viewResidentById(@PathVariable("id") Long id) {
     Optional<Resident> transaction = residentRepository.findById(id);
     if(transaction.isPresent()) {
       return transaction.get();
